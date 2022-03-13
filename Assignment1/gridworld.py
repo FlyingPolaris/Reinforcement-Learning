@@ -53,7 +53,7 @@ class GridworldEnv(discrete.DiscreteEnv):
             # P[s][a] = (prob, next_state, reward, is_done)
             P[s] = {a : [] for a in range(nA)}
 
-            is_done = lambda s: s == 0 or s == (nS - 1)
+            is_done = lambda s: s == 1 or s == (nS - 1) # Modified the location of the terminal state
             reward = 0.0 if is_done(s) else -1.0
 
             # We're stuck in a terminal state
