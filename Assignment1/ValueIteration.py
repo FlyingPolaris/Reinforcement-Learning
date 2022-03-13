@@ -4,7 +4,7 @@ from gridworld import GridworldEnv
 def value_iteration(gridworld, theta=0.001, gamma=0.99):
     V = np.zeros(gridworld.nS)
     while True:
-        delta = 0
+        delta = 0.0
         for state in range(gridworld.nS):
             v = V[state]
             action_values = np.zeros(gridworld.nA)
@@ -13,7 +13,7 @@ def value_iteration(gridworld, theta=0.001, gamma=0.99):
                     action_values[action] += prob * \
                         (reward+gamma*V[next_state])
             V[state] = np.max(action_values)
-            delta = max(delta, abs(V[state]-v))
+            delta = max(delta, np.abs(V[state]-v))
         if delta < theta:
             break
 

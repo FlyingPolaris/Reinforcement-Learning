@@ -5,22 +5,25 @@ from gridworld import GridworldEnv
 def policy_evaluation(gridworld, policy, theta=0.001, gamma=0.99):
     V = np.zeros(gridworld.nS)
     while True:
-        delta = 0
+        delta = 0.0
         for state in range(gridworld.nS):
-            v = V[state]
+            v = 0.0
             for action, pi in enumerate(policy[state]):
                 for prob, next_state, reward, is_done in gridworld.P[state][action]:
-                    V[state] += pi*prob*(reward+gamma*V[next_state])
-            delta = max(delta, abs(V[state]-v))
+                    v += pi*prob*(reward+gamma*V[next_state])
+            delta = max(delta, np.abs(V[state]-v))
+            V[state] = v
         if delta < theta:
             break
     return V
 
 
 def policy_iteration(gridworld, theta=0.001, gamma=0.99):
-    policy = np.ones([gridworld.nS, gridworld.nA])/gridworld.nA
-    policy_stable = True
-    while policy_stable:
+    policy = np.ones([gridworld.nS, gridworld.nA]) / \
+        gridworld.nA  # Init the policy randomly
+    policy_stable = False
+    while not policy_stable:
+        policy_stable = True
         V = policy_evaluation(gridworld, policy, theta, gamma)
         for state in range(gridworld.nS):
             old_action = np.argmax(policy[state])

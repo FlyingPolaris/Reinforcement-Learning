@@ -9,9 +9,9 @@ def test_policy_iteration(gridworld):
     V, policy = PolicyIteration.policy_iteration(gridworld)
     print('----------------Policy Iteration----------------')
     print('Value Function:')
-    print(V)
-    print('Policy:')
-    print(policy)
+    print(np.reshape(V,gridworld.shape))
+    print('Policy:(UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3)')
+    print(np.reshape(np.argmax(policy, axis=1),gridworld.shape))
     print('------------------------------------------------')
 
 
@@ -19,9 +19,9 @@ def test_value_iteration(gridworld):
     V, policy = ValueIteration.value_iteration(gridworld)
     print('----------------Value Iteration----------------')
     print('Value Function:')
-    print(V)
-    print('Policy:')
-    print(policy)
+    print(np.reshape(V,gridworld.shape))
+    print('Policy:(UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3)')
+    print(np.reshape(np.argmax(policy, axis=1),gridworld.shape))
     print('------------------------------------------------')
 
 def main():
