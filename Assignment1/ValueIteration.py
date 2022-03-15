@@ -1,10 +1,13 @@
 import numpy as np
 from gridworld import GridworldEnv
 
+
 def value_iteration(gridworld, theta=0.001, gamma=0.99):
     V = np.zeros(gridworld.nS)
+    iteration = 0
     while True:
         delta = 0.0
+        iteration += 1
         for state in range(gridworld.nS):
             v = V[state]
             action_values = np.zeros(gridworld.nA)
@@ -25,5 +28,5 @@ def value_iteration(gridworld, theta=0.001, gamma=0.99):
                 action_values[action] += prob * \
                     (reward+gamma*V[next_state])
         best_action = np.argmax(action_values)
-        policy[state]=np.eye(gridworld.nA)[best_action]
-    return V, policy
+        policy[state] = np.eye(gridworld.nA)[best_action]
+    return V, policy, iteration

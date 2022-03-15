@@ -4,8 +4,10 @@ from gridworld import GridworldEnv
 
 def policy_evaluation(gridworld, policy, theta=0.001, gamma=0.99):
     V = np.zeros(gridworld.nS)
+    iteration = 0
     while True:
         delta = 0.0
+        iteration += 1
         for state in range(gridworld.nS):
             v = 0.0
             for action, pi in enumerate(policy[state]):
@@ -15,7 +17,7 @@ def policy_evaluation(gridworld, policy, theta=0.001, gamma=0.99):
             V[state] = v
         if delta < theta:
             break
-    return V
+    return V, iteration
 
 
 def policy_iteration(gridworld, theta=0.001, gamma=0.99):
@@ -24,7 +26,7 @@ def policy_iteration(gridworld, theta=0.001, gamma=0.99):
     policy_stable = False
     while not policy_stable:
         policy_stable = True
-        V = policy_evaluation(gridworld, policy, theta, gamma)
+        V, iteration = policy_evaluation(gridworld, policy, theta, gamma)
         for state in range(gridworld.nS):
             old_action = np.argmax(policy[state])
             action_values = np.zeros(gridworld.nA)
@@ -36,4 +38,4 @@ def policy_iteration(gridworld, theta=0.001, gamma=0.99):
             policy[state] = np.eye(gridworld.nA)[best_action]
             if old_action != best_action:
                 policy_stable = False
-    return V, policy
+    return V, policy, iteration
